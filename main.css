@@ -82,6 +82,10 @@
  position: relative;
  z-index: 10;
 margin: 0 auto;
+
+}
+.cart_img{
+    padding: 0 12px;
 }
 .cart_btn{
     background-color: #FCE000;
@@ -94,7 +98,7 @@ margin: 0 auto;
     left: 36px; 
    position: absolute;
    opacity: 0;
-
+    color: black;
 }
 
 @media (max-width: 400px) {
