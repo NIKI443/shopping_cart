@@ -1,0 +1,105 @@
+*{
+    --mrg_canvas: 50px;
+    --product_orign-top1:  calc(var(--mrg_canvas) + 50px);
+    --product_orign-top2:  calc(var(--product_orign-top1) + 170px);
+    --product_orign-top3:  calc(var(--product_orign-top2) + 50px);
+    --bc_position: 44px;
+
+}
+
+
+.canvas{
+    display: flex;
+    background-color: #EDF6FF; 
+   width: 300px;
+   height: 600px;
+   margin: var(--mrg_canvas) auto;
+   flex-direction: column;
+   
+}
+
+.canvas_shelf__img{
+    background-image: url("img/Shelf.png");
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: var(--bc_position) 100%;
+    margin-bottom: -100px;
+    
+}
+
+.shelf_product{
+    position: absolute;
+    
+}
+.wine{
+    top: calc(var(--product_orign-top1) - 15px);
+    left: calc(var(--dynamic-margin) + 20px) ;
+}
+.milk{
+    top: calc(var(--product_orign-top1) + 20px);
+    left: calc(var(--dynamic-margin) + 63px) ;
+}
+.jam{
+    top: calc(var(--product_orign-top1) + 68px);
+    left: calc(var(--dynamic-margin) + 103px) ;
+}
+.cheese{
+    top: calc(var(--product_orign-top1) + 77px);
+
+    left: calc(var(--dynamic-margin) + 156px) ;
+}
+.beef{
+    top: calc(var(--product_orign-top2) - 10px);
+
+    left: calc(var(--dynamic-margin) + 8px) ;
+}
+.chicken{
+    top: calc(var(--product_orign-top2) - 10px);
+    left: calc(var(--dynamic-margin) + 60px) ;
+}
+.chips{
+    top: calc(var(--product_orign-top2) - 3px);
+    left: calc(var(--dynamic-margin) + 126px) ;
+}
+.pineapple{
+    top: calc(var(--product_orign-top3) + 10px);
+    left: calc(var(--dynamic-margin) + 13px) ;
+}
+.banana{
+    top: calc(var(--product_orign-top3) + 35px);
+    left: calc(var(--dynamic-margin) + 58px) ;
+}
+.apple{
+    top: calc(var(--product_orign-top3) + 45px);
+    left: calc(var(--dynamic-margin) + 112px) ;
+}
+.cabbage{
+    top: calc(var(--product_orign-top3) + 30px);
+    left: calc(var(--dynamic-margin) + 150px) ;
+}
+.cart{
+ position: relative;
+ z-index: 10;
+margin: 0 auto;
+}
+.cart_btn{
+    background-color: #FCE000;
+    font-family:  Verdana, serif;
+    border-radius: 16px;
+    font-size: 16px;
+    padding: 20px 18px;
+    width: 228px;
+    top: 155px;
+    left: 36px; 
+   position: absolute;
+   opacity: 0;
+
+}
+
+@media (max-width: 400px) {
+    *{
+        --mrg_canvas: 0;
+
+     }  
+}
