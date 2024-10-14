@@ -26,6 +26,7 @@ products.forEach((product) => {
 
 function dragMoveTouch(event) {
   let touch = event.targetTouches[0];
+
   let product = event.target;
   let shiftX = touch.clientX - product.getBoundingClientRect().left;
   let shiftY = touch.clientY - product.getBoundingClientRect().top;
@@ -64,6 +65,7 @@ function dragMoveTouch(event) {
           product.ontouchend = null;
           product.style.zIndex = 1;
           cartPush();
+          leaveDroppable(currentDroppable);
         };
       }
     }
@@ -119,6 +121,7 @@ function dragMoveMouse(event) {
           product.onmouseup = null;
           product.style.zIndex = 1;
           cartPush();
+          leaveDroppable(currentDroppable);
         };
       }
     }
