@@ -24,7 +24,13 @@ products.forEach((product) => {
   product.addEventListener("touchstart", dragMoveTouch);
 });
 
+
+
+
+
+
 function dragMoveTouch(event) {
+
   let touch = event.targetTouches[0];
 
   let product = event.target;
