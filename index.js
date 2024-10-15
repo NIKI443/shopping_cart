@@ -15,22 +15,19 @@ window.addEventListener("resize", setMargin);
 function cartPush() {
   cart.push(1);
   if (cart.length >= 3) {
-    cart_btn.style.opacity = "1";
+    cart_btn.classList.add("active");
   }
 }
 
 products.forEach((product) => {
+  product.ondragstart = function () {
+    return false;
+  };
   product.addEventListener("mousedown", dragMoveMouse);
   product.addEventListener("touchstart", dragMoveTouch);
 });
 
-
-
-
-
-
 function dragMoveTouch(event) {
-
   let touch = event.targetTouches[0];
 
   let product = event.target;
@@ -42,7 +39,7 @@ function dragMoveTouch(event) {
     product.style.left = pageX - shiftX + "px";
     product.style.top = pageY - shiftY + "px";
   }
-  document.removeEventListener("touchmove", onTouchMove);
+
   function onTouchMove(event) {
     let touch = event.targetTouches[0];
     moveAt(touch.pageX, touch.pageY);
@@ -71,7 +68,7 @@ function dragMoveTouch(event) {
           product.ontouchend = null;
           product.style.zIndex = 1;
           cartPush();
-          leaveDroppable(currentDroppable);
+          leaveDroppable(droppableBelow);
         };
       }
     }
@@ -86,22 +83,16 @@ function dragMoveTouch(event) {
   };
 }
 
-products.ondragstart = function () {
-  return false;
-};
-
 function dragMoveMouse(event) {
-  event.preventDefault();
   let product = event.target;
   let shiftX = event.clientX - product.getBoundingClientRect().left;
   let shiftY = event.clientY - product.getBoundingClientRect().top;
-  product.style.zIndex = 1000;
+
   moveAt(event.pageX, event.pageY);
   function moveAt(pageX, pageY) {
     product.style.left = pageX - shiftX + "px";
     product.style.top = pageY - shiftY + "px";
   }
-
   function onMouseMove(event) {
     moveAt(event.pageX, event.pageY);
     product.style.zIndex = 1000;
@@ -112,6 +103,7 @@ function dragMoveMouse(event) {
 
     if (!elemBelow) return;
     let droppableBelow = elemBelow.closest(".cart_img");
+
     if (elemBelow == document.body) {
       document.removeEventListener("mousemove", onMouseMove);
     }
@@ -124,14 +116,16 @@ function dragMoveMouse(event) {
         enterDroppable(currentDroppable);
         product.onmouseup = function () {
           document.removeEventListener("mousemove", onMouseMove);
+
           product.onmouseup = null;
           product.style.zIndex = 1;
           cartPush();
-          leaveDroppable(currentDroppable);
+          leaveDroppable(droppableBelow);
         };
       }
     }
   }
+
   document.addEventListener("mousemove", onMouseMove);
 
   product.onmouseup = function () {
