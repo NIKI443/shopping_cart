@@ -26,6 +26,7 @@
 
 .shelf_product {
   position: absolute;
+  touch-action: none;
 }
 .wine {
   top: calc(var(--product_orign-top1) - 15px);

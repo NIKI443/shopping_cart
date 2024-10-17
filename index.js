@@ -24,16 +24,16 @@ products.forEach((product) => {
     return false;
   };
   product.addEventListener("mousedown", dragMoveMouse);
-  product.addEventListener("touchstart", dragMoveTouch);
+  product.addEventListener("touchstart", dragMoveTouch, { passive: false });
 });
 
 function dragMoveTouch(event) {
   let touch = event.targetTouches[0];
-
+  let clientTop = touch.clientX;
+  let clientLeft = touch.clientY;
   let product = event.target;
   let shiftX = touch.clientX - product.getBoundingClientRect().left;
   let shiftY = touch.clientY - product.getBoundingClientRect().top;
-
   moveAt(touch.pageX, touch.pageY);
   function moveAt(pageX, pageY) {
     product.style.left = pageX - shiftX + "px";
@@ -44,7 +44,6 @@ function dragMoveTouch(event) {
     let touch = event.targetTouches[0];
     moveAt(touch.pageX, touch.pageY);
     product.style.zIndex = 1000;
-
     product.hidden = true;
     let elemBelow = document.elementFromPoint(touch.clientX, touch.clientY);
     product.hidden = false;
@@ -52,19 +51,22 @@ function dragMoveTouch(event) {
     if (!elemBelow) return;
     let droppableBelow = elemBelow.closest(".cart_img");
 
-    if (elemBelow == document.body) {
-      document.removeEventListener("touchmove", onTouchMove);
-    }
-
     if (currentDroppable != droppableBelow) {
       if (currentDroppable) {
         leaveDroppable(currentDroppable);
+        product.ontouchend = function () {
+          document.removeEventListener("touchmove", onTouchMove);
+          product.ontouchend = null;
+          product.style.zIndex = 1;
+          moveAt(clientTop, clientLeft);
+        };
       }
       currentDroppable = droppableBelow;
       if (currentDroppable) {
         enterDroppable(currentDroppable);
         product.ontouchend = function () {
           document.removeEventListener("touchmove", onTouchMove);
+          document.removeEventListener("touchend", onTouchMove);
           product.ontouchend = null;
           product.style.zIndex = 1;
           cartPush();
@@ -80,10 +82,13 @@ function dragMoveTouch(event) {
     document.removeEventListener("touchmove", onTouchMove);
     product.ontouchend = null;
     product.style.zIndex = 1;
+    moveAt(clientTop, clientLeft);
   };
 }
 
 function dragMoveMouse(event) {
+  let clientTop = event.clientX;
+  let clientLeft = event.clientY;
   let product = event.target;
   let shiftX = event.clientX - product.getBoundingClientRect().left;
   let shiftY = event.clientY - product.getBoundingClientRect().top;
@@ -104,12 +109,15 @@ function dragMoveMouse(event) {
     if (!elemBelow) return;
     let droppableBelow = elemBelow.closest(".cart_img");
 
-    if (elemBelow == document.body) {
-      document.removeEventListener("mousemove", onMouseMove);
-    }
     if (currentDroppable != droppableBelow) {
       if (currentDroppable) {
         leaveDroppable(currentDroppable);
+        product.onmouseup = function () {
+          document.removeEventListener("mousemove", onMouseMove);
+          product.onmouseup = null;
+          product.style.zIndex = 1;
+          moveAt(clientTop, clientLeft);
+        };
       }
       currentDroppable = droppableBelow;
       if (currentDroppable) {
@@ -132,6 +140,7 @@ function dragMoveMouse(event) {
     document.removeEventListener("mousemove", onMouseMove);
     product.onmouseup = null;
     product.style.zIndex = 1;
+    moveAt(clientTop, clientLeft);
   };
 }
 
