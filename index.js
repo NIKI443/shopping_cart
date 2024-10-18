@@ -39,6 +39,14 @@ function dragMoveTouch(event) {
     product.style.left = pageX - shiftX + "px";
     product.style.top = pageY - shiftY + "px";
   }
+  function moveEnd(){
+    product.ontouchend = function () {
+      document.removeEventListener("touchmove", onTouchMove);
+      product.ontouchend = null;
+      product.style.zIndex = 1;
+      moveAt(clientTop, clientLeft);
+    };
+  }
 
   function onTouchMove(event) {
     let touch = event.targetTouches[0];
@@ -54,12 +62,7 @@ function dragMoveTouch(event) {
     if (currentDroppable != droppableBelow) {
       if (currentDroppable) {
         leaveDroppable(currentDroppable);
-        product.ontouchend = function () {
-          document.removeEventListener("touchmove", onTouchMove);
-          product.ontouchend = null;
-          product.style.zIndex = 1;
-          moveAt(clientTop, clientLeft);
-        };
+        moveEnd()
       }
       currentDroppable = droppableBelow;
       if (currentDroppable) {
@@ -78,12 +81,7 @@ function dragMoveTouch(event) {
 
   document.addEventListener("touchmove", onTouchMove);
 
-  product.ontouchend = function () {
-    document.removeEventListener("touchmove", onTouchMove);
-    product.ontouchend = null;
-    product.style.zIndex = 1;
-    moveAt(clientTop, clientLeft);
-  };
+  moveEnd()
 }
 
 function dragMoveMouse(event) {
@@ -98,6 +96,14 @@ function dragMoveMouse(event) {
     product.style.left = pageX - shiftX + "px";
     product.style.top = pageY - shiftY + "px";
   }
+   function moveEnd(){
+    product.onmouseup = function () {
+      document.removeEventListener("mousemove", onMouseMove);
+      product.onmouseup = null;
+      product.style.zIndex = 1;
+      moveAt(clientTop, clientLeft);
+    };
+   }
   function onMouseMove(event) {
     moveAt(event.pageX, event.pageY);
     product.style.zIndex = 1000;
@@ -112,12 +118,7 @@ function dragMoveMouse(event) {
     if (currentDroppable != droppableBelow) {
       if (currentDroppable) {
         leaveDroppable(currentDroppable);
-        product.onmouseup = function () {
-          document.removeEventListener("mousemove", onMouseMove);
-          product.onmouseup = null;
-          product.style.zIndex = 1;
-          moveAt(clientTop, clientLeft);
-        };
+        moveEnd()
       }
       currentDroppable = droppableBelow;
       if (currentDroppable) {
@@ -135,13 +136,8 @@ function dragMoveMouse(event) {
   }
 
   document.addEventListener("mousemove", onMouseMove);
+  moveEnd()
 
-  product.onmouseup = function () {
-    document.removeEventListener("mousemove", onMouseMove);
-    product.onmouseup = null;
-    product.style.zIndex = 1;
-    moveAt(clientTop, clientLeft);
-  };
 }
 
 function enterDroppable(elem) {
